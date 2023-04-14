@@ -4,10 +4,8 @@ import com.attornatus.person.dto.PersonPostBody;
 
 public class PersonPostBodyBuilder {
 
-    public static PersonPostBody createPostBody(){
-      return PersonPostBody.builder()
-                .name(PersonBuilder.createValidPerson().getName())
-                .birthDate(PersonBuilder.createValidPerson().getBirthDate())
-                .build();
+    public static PersonPostBody createPostBody() {
+        return new PersonPostBody(PersonBuilder.createValidPerson().getName(),
+                PersonBuilder.createValidPerson().getBirthDate());
     }
 }

@@ -1,11 +1,11 @@
 package com.attornatus.person.utils;
 
-import com.attornatus.person.model.Adress;
+import com.attornatus.person.model.Address;
 
 public class AdressBuilder {
 
-    public static Adress createValidAdress(){
-        return Adress.builder()
+    public static Address createValidAdress(){
+        return Address.builder()
                 .id(1L)
                 .numero(100L)
                 .cep("21640330")
@@ -15,8 +15,8 @@ public class AdressBuilder {
                 .build();
     }
 
-    public static Adress createAdressToBeSaved(){
-        return Adress.builder()
+    public static Address createAdressToBeSaved(){
+        return Address.builder()
                 .numero(100L)
                 .cep("21640330")
                 .logradouro("Rua são venâncio")

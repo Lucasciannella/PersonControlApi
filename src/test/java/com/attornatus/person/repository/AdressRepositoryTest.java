@@ -1,13 +1,11 @@
 package com.attornatus.person.repository;
 
-import com.attornatus.person.model.Adress;
+import com.attornatus.person.model.Address;
 import com.attornatus.person.utils.AdressBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.util.List;
 
 @DataJpaTest
 public class AdressRepositoryTest {
@@ -18,29 +16,29 @@ public class AdressRepositoryTest {
     @Test
     void save_persistAdress_WhenSuccessful() {
 
-        Adress adressToBeSaved = AdressBuilder.createAdressToBeSaved();
+        Address addressToBeSaved = AdressBuilder.createAdressToBeSaved();
 
-        Adress adress = adressRepository.save(adressToBeSaved);
+        Address address = adressRepository.save(addressToBeSaved);
 
-        Assertions.assertEquals(adress.getId(), adressToBeSaved.getId());
-        Assertions.assertEquals(adress.getCep(), adressToBeSaved.getCep());
-        Assertions.assertEquals(adress.getNumero(), adressToBeSaved.getNumero());
-        Assertions.assertEquals(adress.getLogradouro(), adressToBeSaved.getLogradouro());
-        Assertions.assertEquals(adress.getLocalidade(), adressToBeSaved.getLocalidade());
+        Assertions.assertEquals(address.getId(), addressToBeSaved.getId());
+        Assertions.assertEquals(address.getCep(), addressToBeSaved.getCep());
+        Assertions.assertEquals(address.getNumero(), addressToBeSaved.getNumero());
+        Assertions.assertEquals(address.getLogradouro(), addressToBeSaved.getLogradouro());
+        Assertions.assertEquals(address.getLocalidade(), addressToBeSaved.getLocalidade());
     }
 
     @Test
     void update_PersistAdress_WhenSuccessful() {
-        Adress adressToBeSaved = AdressBuilder.createAdressToBeSaved();
+        Address addressToBeSaved = AdressBuilder.createAdressToBeSaved();
 
-        Adress adressSaved = adressRepository.save(adressToBeSaved);
+        Address addressSaved = adressRepository.save(addressToBeSaved);
 
-        Adress adressUpdated = adressRepository.save(adressSaved);
+        Address addressUpdated = adressRepository.save(addressSaved);
 
-        Assertions.assertEquals(adressUpdated.getId(), adressSaved.getId());
-        Assertions.assertEquals(adressUpdated.getNumero(), adressSaved.getNumero());
-        Assertions.assertEquals(adressUpdated.getCep(), adressSaved.getCep());
-        Assertions.assertEquals(adressUpdated.getLocalidade(), adressSaved.getLocalidade());
-        Assertions.assertEquals(adressUpdated.getLogradouro(), adressSaved.getLogradouro());
+        Assertions.assertEquals(addressUpdated.getId(), addressSaved.getId());
+        Assertions.assertEquals(addressUpdated.getNumero(), addressSaved.getNumero());
+        Assertions.assertEquals(addressUpdated.getCep(), addressSaved.getCep());
+        Assertions.assertEquals(addressUpdated.getLocalidade(), addressSaved.getLocalidade());
+        Assertions.assertEquals(addressUpdated.getLogradouro(), addressSaved.getLogradouro());
     }
 }

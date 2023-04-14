@@ -1,11 +1,10 @@
 package com.attornatus.person.service;
 
-import com.attornatus.person.dto.AdressPostBody;
+import com.attornatus.person.dto.AddressPostBody;
 import com.attornatus.person.exceptions.BadRequestException;
-import com.attornatus.person.model.Adress;
-import com.attornatus.person.model.Person;
+import com.attornatus.person.model.Address;
 import com.attornatus.person.repository.AdressRepository;
-import com.attornatus.person.repository.PersonRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,40 +18,45 @@ public class AdressService {
 
     private final AdressRepository adressRepository;
 
-    private final PersonRepository personRepository;
+    public Address findByIdOrThrowBadRequestException(Long id) {
+        return adressRepository.findById(id).orElseThrow(() -> new BadRequestException("Adress is not discovered or not exists in database"));
+    }
 
-    public Adress saveAdress(Long id, AdressPostBody adressPostBody) {
+    @Transactional
+    public Address saveAdress(Long id, AddressPostBody addressPostBody) {
         var person = personService.findByIdOrThrowBadRequestException(id);
 
-        Adress adress = Adress.builder()
-                .cep(adressPostBody.getCep())
-                .numero(adressPostBody.getNumero())
-                .localidade(adressPostBody.getLocalidade())
-                .logradouro(adressPostBody.getLogradouro())
+        Address address = Address.builder()
+                .cep(addressPostBody.cep())
+                .numero(addressPostBody.numero())
+                .localidade(addressPostBody.localidade())
+                .logradouro(addressPostBody.logradouro())
                 .person(person)
                 .build();
 
-        return adressRepository.save(adress);
+        return adressRepository.save(address);
     }
 
-    public List<Adress> listAdress(Long personId) {
+    public List<Address> listAdressByPersonId(Long personId) {
         var person = personService.findByIdOrThrowBadRequestException(personId);
 
         return adressRepository.findAllByPersonId(person.getId());
     }
 
+    @Transactional
+    public Address setMainAdress(Long personid, Long adressId){
+        var adress = findByIdOrThrowBadRequestException(adressId);
+        var person = personService.findByIdOrThrowBadRequestException(personid);
 
-    public Adress setMainAdress(Long personId, Long adressId) {
+        Address addressToUpdated = Address.builder()
+                .id(adress.getId())
+                .cep(adress.getCep())
+                .logradouro(adress.getLogradouro())
+                .localidade(adress.getLocalidade())
+                .numero(adress.getNumero())
+                .isMain(true)
+                .build();
 
-        Person person = personService.findByIdOrThrowBadRequestException(personId);
-
-        Adress adress = adressRepository.findById(adressId).orElseThrow(() -> new BadRequestException("deu ruim"));
-
-        if (!adress.getPerson().equals(person)) {
-            throw new BadRequestException(" enderço e pessoa nao correspondem");
-        }
-        person.setAdress(adress);
-        personRepository.save(person);
-        return adress;
+        return adressRepository.save(addressToUpdated);
     }
 }

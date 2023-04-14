@@ -2,7 +2,10 @@ package com.attornatus.person.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
+
 public class Person {
 
     @Id
@@ -21,6 +24,6 @@ public class Person {
     private String name;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
-    @OneToOne
-    private Adress Adress;
+    @OneToMany(mappedBy = "person")
+    private List<Address> Address;
 }
